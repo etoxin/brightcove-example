@@ -9,12 +9,13 @@
         color: #990000;
       }
     </style>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script>
   </head>
   <body>
     <div class="section" id="player">
       <div class="player-block">
         <!-- Start of Brightcove Player -->
-        <script language="JavaScript" type="text/javascript" src="http://admin.brightcove.com/js/BrightcoveExperiences.js"></script>
+        <script language="JavaScript" type="text/javascript" src="//admin.brightcove.com/js/BrightcoveExperiences.js"></script>
           <object id="myExperience928199562001" class="BrightcoveExperience">
             <param name="bgcolor" value="#FFFFFF" />
             <param name="width" value="545" />
@@ -34,7 +35,36 @@
         <p id="timeRemaining"></p>
       </div>
     </div>
-    <!-- bcl scripts -->
+
+
+    <!-- Tracking Implementation -->
+    <script>
+    var CONFIG = {
+            //Google Analytics Tracking
+            GA : {
+                ua_id : 'UA-7276741-14'
+            },
+            //Webtrends Tracking
+            WT : {
+                wt_dcsid_1 : 'dcs86av54100008qp7mnbpsjz_3x4h',
+                wt_domain_1 : 'statse.webtrendslive.com',
+                wt_dcsid_form: 'dcsqujvks10000c9n9udrxtde_2o9d',
+                fpcdom: 'toyota.com.au'
+            },
+        }
+    </script>
+    <script src="http://www.toyota.com.au/static/tracking.min.js"></script>
+    <script>
+        var wt = new WebTracker();
+        wt.AddTracker(new WebTrendsWrapper(CONFIG.WT.wt_dcsid_1, CONFIG.WT.wt_domain_1));
+        wt.AddTracker(new GoogleAnalyticsWrapper());
+        var mc_id = null;
+        var cg_n = 'Corolla WhatIlove';
+        var cg_s = 'Landing page';
+        webtrendsTag(cg_n, cg_s);
+    </script>
+
+    <!-- Brightcove scripts -->
     <script id="pageScript" type="text/javascript">
       /******** Any scripts specific to page samples should go here *********/
       /**** Brightcove Learning Services Module ****/
