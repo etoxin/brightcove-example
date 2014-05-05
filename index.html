@@ -2,18 +2,15 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <title id="bclPageTitle">Toyota Smart Player API Samples: Load Multiple Videos</title>
-    <style id="pageStyles">
-      #videoName, #timeRemaining {
-        background-color:#F4F4F4;
-        color: #990000;
-      }
-    </style>
+    <title>Toyota Smart Player API Samples: Load Multiple Videos</title>
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script>
   </head>
   <body>
+    <h1>Toyota Multiple Videos with Tracking</h1>
     <div class="section" id="player">
       <div class="player-block">
+        
+
         <!-- Start of Brightcove Player -->
         <script language="JavaScript" type="text/javascript" src="//admin.brightcove.com/js/BrightcoveExperiences.js"></script>
           <object id="myExperience928199562001" class="BrightcoveExperience">
@@ -26,18 +23,17 @@
             <param name="isUI" value="true" />
             <param name="dynamicStreaming" value="true" />
             <param name="includeAPI" value="true" />
-            <param name="templateLoadHandler" value="BCLS.onTemplateLoad" />
-            <param name="templateReadyHandler" value="BCLS.onTemplateReady" />
+            <param name="templateLoadHandler" value="toyota.whatilove.onTemplateLoad" />
+            <param name="templateReadyHandler" value="toyota.whatilove.onTemplateReady" />
           </object>
         <script type="text/javascript">brightcove.createExperiences();</script>
         <!-- End of Brightcove Player -->
-        <p id="videoName"></p>
-        <p id="timeRemaining"></p>
+
       </div>
     </div>
 
 
-    <!-- Tracking Implementation -->
+    <!-- Start Webtrands Tracking Implementation -->
     <script>
     var CONFIG = {
             //Google Analytics Tracking
@@ -63,13 +59,15 @@
         var cg_s = 'Landing page';
         webtrendsTag(cg_n, cg_s);
     </script>
+    <!-- End Webtrands Tracking Implementation -->
 
-    <!-- Brightcove scripts -->
+
+
+    <!-- Start Project -->
     <script id="pageScript" type="text/javascript">
-      /******** Any scripts specific to page samples should go here *********/
-      /**** Brightcove Learning Services Module ****/
-      var BCLS = (function() {
-        // variables
+      toyota = window.toyota || {};
+      toyota.whatilove = (function() {
+        /*** variables ***/
         var player,
             APIModules,
             mediaEvent,
@@ -83,7 +81,7 @@
               {name: 'Camry Hybrid HL', id:'2575918574001'},
               {name: 'Calling All The Heroes', id:'2575924523001'}
             ];
-        // private functions
+        /*** private functions ***/
         loadVideo = function () {
             var newVideo;
             if (currentVideoIndex < videoArray.length) {
@@ -91,44 +89,41 @@
                 newVideo = videoArray[currentVideoIndex];
                 // load the new video
                 videoPlayer.loadVideoByID(newVideo.id);
-                // update the video title display
-                eVideoName.innerHTML = "Now playing: <strong>" + newVideo.name + "</strong>";
                 // increment the current video index
                 currentVideoIndex++;
             }
         }
-        // public functions and data
+
+        /*** public functions and data ***/
         return {
           /**** template loaded event handler ****/
-          onTemplateLoad : function (experienceID) {
+          onTemplateLoad: function (experienceID) {
             // get a reference to the player and API Modules and Events
             player = brightcove.api.getExperience(experienceID);
             APIModules = brightcove.api.modules.APIModules;
             mediaEvent = brightcove.api.events.MediaEvent;
           },
           /**** template ready event handler ****/
-          onTemplateReady : function (evt) {
+          onTemplateReady: function (evt) {
             // get references to modules
             videoPlayer = player.getModule(APIModules.VIDEO_PLAYER);
             // add an event listener for video PROGRESS events
             // note that handler name must be the *public* name
-            videoPlayer.addEventListener(mediaEvent.PROGRESS, BCLS.onProgress);
+            videoPlayer.addEventListener(mediaEvent.PROGRESS, toyota.whatilove.mediaEvent);
             // add an event listener for video COMPLETE events
-            videoPlayer.addEventListener(mediaEvent.COMPLETE, BCLS.onComplete);
+            videoPlayer.addEventListener(mediaEvent.COMPLETE, toyota.whatilove.onComplete);
             // load the first video
             loadVideo();
           },
           /**** complete event handler ****/
-          onComplete : function (evt) {
-            console.log("onComplete video");
+          onComplete: function (event) {
             loadVideo();
           },
-          /**** progress event handler ****/
-          onProgress : function (evt) {
-            var timeRemaining;
-            timeRemaining = Math.round((evt.duration - evt.position)*100) / 100;
-            eTimeRemaining.innerHTML = "Time remaining: " + timeRemaining;
+          mediaEvent: function (event) {
+            console.log(event);
           }
+
+
         }
       }());
     </script>
