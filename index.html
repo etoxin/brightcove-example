@@ -1,0 +1,115 @@
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title id="bclPageTitle">Smart Player API Samples: Load Multiple Videos</title>
+    <style id="pageStyles">
+      #videoName, #timeRemaining {
+        background-color:#F4F4F4;
+        color: #990000;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="section" id="player">
+      <!-- buttons to switch between HTML and Flash Players -->
+      <div id="modeSwitch">
+        <span class="button" id="switchToHTML5" style="margin-bottom: 20px;margin-right: 10px;">Switch to HTML5 Player</span>
+        <span class="button" id="switchToFlash" style="margin-bottom: 20px;">Switch to Flash Player</span>
+      </div>
+      <div class="player-block">
+        <!-- Start of Brightcove Player -->
+        <script language="JavaScript" type="text/javascript" src="http://admin.brightcove.com/js/BrightcoveExperiences.js"></script>
+        <object id="myExperience921449663001" class="BrightcoveExperience">
+          <param name="bgcolor" value="#FFFFFF" />
+          <param name="width" value="480" />
+          <param name="height" value="270" />
+          <param name="playerID" value="2079935931001" />
+          <param name="playerKey" value="AQ~~,AAAA1oy1bvE~,ALl2ezBj3WE0z3yX6Xw29sdCvkH5GCJv" />
+          <param name="isVid" value="true" />
+          <param name="isUI" value="true" />
+          <param name="dynamicStreaming" value="true" />             
+          <param name="includeAPI" value="true" />
+          <param name="templateLoadHandler" value="BCLS.onTemplateLoad" />
+          <param name="templateReadyHandler" value="BCLS.onTemplateReady" />
+        </object>
+        <script type="text/javascript">brightcove.createExperiences();</script>
+        <!-- End of Brightcove Player -->
+        <p id="videoName"></p>
+        <p id="timeRemaining"></p>
+      </div>
+    </div>
+    <!-- bcl scripts -->
+    <script id="pageScript" type="text/javascript">
+      /******** Any scripts specific to page samples should go here *********/
+      /**** Brightcove Learning Services Module ****/
+      var BCLS = (function() {
+        // variables
+        var player,
+            APIModules,
+            mediaEvent,
+            videoPlayer,
+            eVideoName = document.getElementById("videoName"),
+            eTimeRemaining = document.getElementById("timeRemaining"),
+            currentVideoIndex = 0,
+            videoArray = [
+                { 
+                    name: "Bird - Chickadee",
+                    id : 928199562001
+                },
+                { 
+                    name: "Bird - Common Redpoll",
+                    id : 1325817301001
+                }
+            ];
+        // private functions
+        loadVideo = function () {
+            var newVideo;
+            if (currentVideoIndex < videoArray.length) {
+                // set new video
+                newVideo = videoArray[currentVideoIndex];
+                // load the new video
+                videoPlayer.loadVideoByID(newVideo.id);
+                // update the video title display
+                eVideoName.innerHTML = "Now playing: <strong>" + newVideo.name + "</strong>";
+                // increment the current video index
+                currentVideoIndex++;
+            }
+        }
+        // public functions and data
+        return {
+          /**** template loaded event handler ****/
+          onTemplateLoad : function (experienceID) {
+            // get a reference to the player and API Modules and Events
+            player = brightcove.api.getExperience(experienceID);
+            APIModules = brightcove.api.modules.APIModules;
+            mediaEvent = brightcove.api.events.MediaEvent;
+          },
+          /**** template ready event handler ****/
+          onTemplateReady : function (evt) {
+            // get references to modules
+            videoPlayer = player.getModule(APIModules.VIDEO_PLAYER);
+            // add an event listener for video PROGRESS events
+            // note that handler name must be the *public* name
+            videoPlayer.addEventListener(mediaEvent.PROGRESS, BCLS.onProgress);
+            // add an event listener for video COMPLETE events
+            videoPlayer.addEventListener(mediaEvent.COMPLETE, BCLS.onComplete);
+            // load the first video
+            loadVideo();
+          },
+          /**** complete event handler ****/
+          onComplete : function (evt) {
+            console.log("onComplete video");
+            loadVideo();
+          },
+          /**** progress event handler ****/
+          onProgress : function (evt) {
+            var timeRemaining;
+            timeRemaining = Math.round((evt.duration - evt.position)*100) / 100;
+            eTimeRemaining.innerHTML = "Time remaining: " + timeRemaining;
+          }
+        }
+      }());
+    </script>
+  </body>
+</html>
