@@ -3,6 +3,7 @@
 <html lang="en">
   <head>
     <title>Toyota Smart Player API Samples: Load Multiple Videos</title>
+    <!-- jquery 1.4.2 dependancy for tracking -->
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script>
   </head>
   <body>
@@ -31,6 +32,12 @@
 
       </div>
     </div>
+
+
+<img class="video-cta" data-id="0" src="http://placehold.it/133x98/333300/ffffff&amp;text=Video+One" alt="">
+<img class="video-cta" data-id="1" src="http://placehold.it/133x98/000033/ffffff&amp;text=Video+Two" alt="">
+<img class="video-cta" data-id="2" src="http://placehold.it/133x98/330033/ffffff&amp;text=Video+Three" alt="">
+<img class="video-cta" data-id="3" src="http://placehold.it/133x98/003333/ffffff&amp;text=Video+Four" alt="">
 
 
     <!-- Start Webtrands Tracking Implementation -->
@@ -82,7 +89,11 @@
               {name: 'Calling All The Heroes', id:'2575924523001'}
             ];
         /*** private functions ***/
-        loadVideo = function () {
+        loadVideo = function (number) {
+            if(number != undefined && typeof number === number){
+
+            }
+
             var newVideo;
             if (currentVideoIndex < videoArray.length) {
                 // set new video
@@ -94,6 +105,11 @@
             }
         }
 
+        var videoSwitcher = (function(){
+          $('.video-cta').bind('click', function (event) {
+            loadVideo( $(this).attr('data-id') );
+          });
+        })()
         /*** public functions and data ***/
         return {
           /**** template loaded event handler ****/
@@ -109,7 +125,7 @@
             videoPlayer = player.getModule(APIModules.VIDEO_PLAYER);
             // add an event listener for video PROGRESS events
             // note that handler name must be the *public* name
-            videoPlayer.addEventListener(mediaEvent.PROGRESS, toyota.whatilove.mediaEvent);
+            // videoPlayer.addEventListener(mediaEvent.PROGRESS, toyota.whatilove.mediaEvent);
             // add an event listener for video COMPLETE events
             videoPlayer.addEventListener(mediaEvent.COMPLETE, toyota.whatilove.onComplete);
             // load the first video
@@ -117,7 +133,7 @@
           },
           /**** complete event handler ****/
           onComplete: function (event) {
-            loadVideo();
+            // loadVideo();
           },
           mediaEvent: function (event) {
             console.log(event);
