@@ -90,11 +90,14 @@
             ];
         /*** private functions ***/
         loadVideo = function (number) {
-            if(number != undefined && typeof number === number){
-
-            }
-
-            var newVideo;
+          console.log(number);
+          var newVideo;
+          if(number != undefined){
+            var index = parseInt(number);
+            currentVideoIndex = index;
+                newVideo = videoArray[currentVideoIndex];
+                videoPlayer.loadVideoByID(newVideo.id);
+          } else {
             if (currentVideoIndex < videoArray.length) {
                 // set new video
                 newVideo = videoArray[currentVideoIndex];
@@ -103,6 +106,7 @@
                 // increment the current video index
                 currentVideoIndex++;
             }
+          }
         }
 
         var videoSwitcher = (function(){
@@ -123,17 +127,26 @@
           onTemplateReady: function (evt) {
             // get references to modules
             videoPlayer = player.getModule(APIModules.VIDEO_PLAYER);
-            // add an event listener for video PROGRESS events
             // note that handler name must be the *public* name
-            // videoPlayer.addEventListener(mediaEvent.PROGRESS, toyota.whatilove.mediaEvent);
             // add an event listener for video COMPLETE events
             videoPlayer.addEventListener(mediaEvent.COMPLETE, toyota.whatilove.onComplete);
+            videoPlayer.addEventListener(mediaEvent.BEGIN, toyota.whatilove.onBegin);
             // load the first video
             loadVideo();
           },
           /**** complete event handler ****/
           onComplete: function (event) {
-            // loadVideo();
+            console.log(event);
+          },
+          onBegin: function (event) {
+            console.log(event);
+            toyota.track({
+              'video_start': 1,
+              'video_name': videoArray[currentVideoIndex].name,
+              'video_time': event.duration,
+              'video_original': 1,
+              'video_flashstart': 1
+            });
           },
           mediaEvent: function (event) {
             console.log(event);
