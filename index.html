@@ -20,19 +20,21 @@
       <div class="player-block">
         <!-- Start of Brightcove Player -->
         <script language="JavaScript" type="text/javascript" src="http://admin.brightcove.com/js/BrightcoveExperiences.js"></script>
-        <object id="myExperience921449663001" class="BrightcoveExperience">
-          <param name="bgcolor" value="#FFFFFF" />
-          <param name="width" value="480" />
-          <param name="height" value="270" />
-          <param name="playerID" value="2079935931001" />
-          <param name="playerKey" value="AQ~~,AAAA1oy1bvE~,ALl2ezBj3WE0z3yX6Xw29sdCvkH5GCJv" />
-          <param name="isVid" value="true" />
-          <param name="isUI" value="true" />
-          <param name="dynamicStreaming" value="true" />             
-          <param name="includeAPI" value="true" />
-          <param name="templateLoadHandler" value="BCLS.onTemplateLoad" />
-          <param name="templateReadyHandler" value="BCLS.onTemplateReady" />
-        </object>
+
+
+          <object id="myExperience928199562001" class="BrightcoveExperience">
+            <param name="bgcolor" value="#FFFFFF" />
+            <param name="width" value="545" />
+            <param name="height" value="307" />
+            <param name="playerID" value="1614194944001" />
+            <param name="playerKey" value="AQ~~,AAABKt-qoiE~,Ip1hsx3g33_A8lk3-w7LCopGRGco6aqC" />
+            <param name="isVid" value="true" />
+            <param name="isUI" value="true" />
+            <param name="dynamicStreaming" value="true" />
+            <param name="includeAPI" value="true" />
+            <param name="templateLoadHandler" value="BCLS.onTemplateLoad" />
+            <param name="templateReadyHandler" value="BCLS.onTemplateReady" />
+          </object>
         <script type="text/javascript">brightcove.createExperiences();</script>
         <!-- End of Brightcove Player -->
         <p id="videoName"></p>
@@ -53,14 +55,10 @@
             eTimeRemaining = document.getElementById("timeRemaining"),
             currentVideoIndex = 0,
             videoArray = [
-                { 
-                    name: "Bird - Chickadee",
-                    id : 928199562001
-                },
-                { 
-                    name: "Bird - Common Redpoll",
-                    id : 1325817301001
-                }
+              {name: 'Aurion Presara', id:'2575849344001'},
+              {name: 'Camry Atara SX', id:'2575924533001'},
+              {name: 'Camry Hybrid HL', id:'2575918574001'},
+              {name: 'Calling All The Heroes', id:'2575924523001'}
             ];
         // private functions
         loadVideo = function () {

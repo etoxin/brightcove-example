@@ -1,0 +1,63 @@
+<html>
+	<head>
+		<title>Brightcove Example</title>
+		<script src="//admin.brightcove.com/js/BrightcoveExperiences.js" type="text/javascript"></script>
+		<script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+		<script>
+            //VIDEO
+            var player; 
+                var modVP;
+                var nextVideo = 0;
+                var videos = new Array(1754276221001,1756137891001,1754276206001,1754276205001,1754234236001); 
+                var videostrings = new Array('2575849344001', '2575924533001', '2575918574001', '2575924523001');
+                function myTemplateLoaded(experienceID) {
+                  player = brightcove.api.getExperience(experienceID);
+                  modVP = player.getModule(brightcove.api.modules.APIModules.VIDEO_PLAYER);
+                }
+                 
+                function onTemplateReady(evt) {
+                  modVP.loadVideoByID(videos[nextVideo]);
+                  modVP.addEventListener(brightcove.api.events.MediaEvent.BEGIN, onMediaBegin);
+                  modVP.addEventListener(brightcove.api.events.MediaEvent.COMPLETE, onMediaComplete);      
+                }
+
+            // Calling All The Heroes
+            var brightcoveVideoExample = {
+                init: function () {
+                    this.videoInit();
+                },
+                videoInit: function () {
+                    brightcoveVideoExample.video();
+                },
+                videos: [        
+                    "http://brightcove04.brightcove.com/21/1283652756001/201307/1614/1283652756001_2575953525001_CAMRY-15-ELEGANCE",
+                    "http://brightcove04.brightcove.com/21/1283652756001/201307/2946/1283652756001_2575956879001_CAMRY-15-AFL",
+                    "http://brightcove04.brightcove.com/21/1283652756001/201307/426/1283652756001_2575953296001_CAMRY-15-HYBRID",
+                    "http://brightcove04.brightcove.com/21/1283652756001/201307/858/1283652756001_2575947594001_CAMRY-60"
+                ],
+                video: function () {
+                    $.each(this.videos, function (index, value) {
+                        var videoUri = value,
+                            videoPlayed = false;
+                        $($('.section.video')[index]).append('<div id="player"><object id="myExperience928199562001" class="BrightcoveExperience"><param name="bgcolor" value="#FFFFFF" /><param name="width" value="545" /><param name="height" value="307" /><param name="playerID" value="1614194944001" /><param name="playerKey" value="AQ~~,AAABKt-qoiE~,Ip1hsx3g33_A8lk3-w7LCopGRGco6aqC" /><param name="isVid" value="true" /><param name="isUI" value="true" /><param name="@videoPlayer" value="'+ videostrings[index] + '" /><param name="templateLoadHandler" value="myTemplateLoaded" /><param name="templateReadyHandler" value="onTemplateReady" /></object></div>');
+                    });
+                    brightcove.createExperiences();
+                },
+            };
+
+            jQuery(document).ready(function($) {
+                brightcoveVideoExample.init();             
+            });
+
+		</script>
+	</head>
+	<body>
+		
+	<div class="section video"></div>
+    <div class="section video"></div>
+    <div class="section video"></div>
+    <div class="section video"></div>
+    <div class="section video"></div>
+
+	</body>
+</html>
