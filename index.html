@@ -99,8 +99,20 @@
             videoPlayer.loadVideoByID(newVideo.id);
           } else {
             if (currentVideoIndex < videoArray.length) {
+                // create a new video
                 newVideo = videoArray[currentVideoIndex];
+
+                // load the video into the player
                 videoPlayer.loadVideoByID(newVideo.id);
+
+                // play the newly loaded video.
+                videoPlayer.play();
+
+                // if it's the last video stop the player
+                if(currentVideoIndex === videoArray.length){
+                  videoPlayer.stop();
+                }
+                // increment the counter.
                 currentVideoIndex++;
             }
           }
@@ -154,6 +166,8 @@
             });
             //GA
             _gaq.push(['_trackEvent', videoArray[currentVideoIndex].name, 'Complete']);
+
+            loadVideo();
           },
           mediaEvent: function (event) {
           }
