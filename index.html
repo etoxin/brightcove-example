@@ -83,27 +83,24 @@
             eTimeRemaining = document.getElementById("timeRemaining"),
             currentVideoIndex = 0,
             videoArray = [
-              {name: 'Aurion Presara', id:'2575849344001'},
-              {name: 'Camry Atara SX', id:'2575924533001'},
-              {name: 'Camry Hybrid HL', id:'2575918574001'},
-              {name: 'Calling All The Heroes', id:'2575924523001'}
+                        {name: 'Luke Nguyen - #WHATILOVE Food', id: '3536866881001'},
+                        {name: 'Laura Enever - #WHATILOVE Surfing', id: '3536957773001'},
+                        {name: 'Paula Joye - #WHATILOVE Fashion', id: '3539604997001'},
+                        {name: 'Craig Alexander - #WHATILOVE Triathlon', id: '3537342394001'},
+                        {name: 'Teresa Cutter - #WHATILOVE Healthy Living', id: '3539598435001'}
             ];
         /*** private functions ***/
         loadVideo = function (number) {
-          console.log(number);
           var newVideo;
           if(number != undefined){
             var index = parseInt(number);
             currentVideoIndex = index;
-                newVideo = videoArray[currentVideoIndex];
-                videoPlayer.loadVideoByID(newVideo.id);
+            newVideo = videoArray[currentVideoIndex];
+            videoPlayer.loadVideoByID(newVideo.id);
           } else {
             if (currentVideoIndex < videoArray.length) {
-                // set new video
                 newVideo = videoArray[currentVideoIndex];
-                // load the new video
                 videoPlayer.loadVideoByID(newVideo.id);
-                // increment the current video index
                 currentVideoIndex++;
             }
           }
@@ -135,11 +132,8 @@
             loadVideo();
           },
           /**** complete event handler ****/
-          onComplete: function (event) {
-            console.log(event);
-          },
           onBegin: function (event) {
-            console.log(event);
+            // webtrends
             toyota.track({
               'video_start': 1,
               'video_name': videoArray[currentVideoIndex].name,
@@ -147,12 +141,22 @@
               'video_original': 1,
               'video_flashstart': 1
             });
+            //GA
+            _gaq.push(['_trackEvent', videoArray[currentVideoIndex].name, 'Play']);
+          },
+          onComplete: function (event) {
+            // webtrends
+            toyota.track({
+              'video_name': videoArray[currentVideoIndex].name,
+              'video_time': event.duration,
+              'video_finish': 1,
+              'video_flashfinish': 1
+            });
+            //GA
+            _gaq.push(['_trackEvent', videoArray[currentVideoIndex].name, 'Complete']);
           },
           mediaEvent: function (event) {
-            console.log(event);
           }
-
-
         }
       }());
     </script>
